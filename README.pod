@@ -1,0 +1,59 @@
+=pod
+
+=encoding utf8
+
+=head1 NAME
+
+L<SimpleDBI>  some function base DBI
+
+support mysql
+
+=head1 FUNCTION
+
+=head2 new
+
+    use SimpleDBI::mysql;
+    use Encode;
+    use utf8;
+
+    my $mysql = SimpleDBI::mysql->new(
+        db     => 'testdb',
+        host   => '127.0.0.1',
+        usr    => 'someusr',
+        passwd => 'somepwd',
+        #enable_utf8 => 1, 
+    );
+
+=head2 query_db
+
+    my $data = $mysql->query_db('select * from sometable limit 2', 
+    result_type => 'arrayref',  # arrayref, hashref, file
+
+    #attr => ..., # sql query attr, 
+    #bind_values => ..., # sql query bind values, 
+
+    #hash_key => [ qw/id prov/ ],  #hashref key 
+
+    #file => 'sometable.txt',  # file name
+    #sep => ',', 
+    );
+
+    print encode( 'utf8' , $_ ), "\n" for @{ $data->[0] };
+
+=head2 load_table
+
+    my $test_file = 'xxx.txt';
+    my $test_data = [ [qw/1 测试/], [qw/2 无聊/], ];
+    $mysql->load_table(
+        $test_data, # or $test_file, 
+        table   => 'testtable',
+        fields  => [qw/id name/],
+
+        #db  => 'otherdb',
+        #charset => 'utf8',
+        #replace => 0, 
+
+        #sep => ',', 
+    );
+
+=cut
